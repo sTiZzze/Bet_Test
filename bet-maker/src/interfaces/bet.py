@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends
 from fastapi_cache import FastAPICache
 from src.applications.bet import BetService
 from src.domain.DTO.bet import BetCreate
+from src.domain.addition.enum import EventStatus
 from src.domain.models.bet import Bet
 from src.domain.models.user import User
 from src.infrastructure.utils.deps import get_current_user
@@ -32,7 +33,7 @@ async def get_events():
         if message:
             message_data = json.loads(message)
 
-            if message_data.get("status") == "незавершённое":
+            if message_data.get("status") == EventStatus.ongoing:
                 cached_messages.append(message_data)
 
     return {"cached_messages": cached_messages}
