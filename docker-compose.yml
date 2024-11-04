@@ -10,7 +10,8 @@ services:
     ports:
       - "8001:8001"
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     networks:
       - connect
 
@@ -22,7 +23,8 @@ services:
     ports:
       - "8002:8002"
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     networks:
       - connect
 
@@ -74,6 +76,11 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: ${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP}
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "kafka:9093" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
 networks:

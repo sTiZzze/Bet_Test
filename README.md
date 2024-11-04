@@ -3,16 +3,16 @@
 1. Создаие .env в корневой папке и bet-maker, использовать .env.sample для примера
 2. Сборка Docker файла
 ```
-docker-compouse build
+docker-compose build
 ```
 3. Поднимаем все контейнеры
 ```
-docker-compouse up
+docker-compose up
 ```
 
-4. Применяем миграции Alembic:
+4. Применяем миграции Alembic (можно через контейнер bet-maker):
 ```
-alembic upgrade head
+pipenv run alembic upgrade head   (через контейнер)
 ```
 
 5. Для доступа к ставкам необходимо получить токен:
